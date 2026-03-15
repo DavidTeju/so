@@ -1,7 +1,5 @@
 use futures::stream::StreamExt;
 use rayon::prelude::*;
-use reqwest::header;
-use reqwest::Client;
 use std::sync::Arc;
 
 use crate::config::{Config, SearchEngine};
@@ -98,9 +96,8 @@ impl Search {
     /// Search query at duckduckgo and then fetch the resulting questions from SE.
     async fn search_by_scraper(&self, scraper: impl Scraper) -> Result<Vec<Question<String>>> {
         let url = scraper.get_url(&self.query, self.site_map.values());
-        let html = Client::new()
+        let html = super::scraper_client()
             .get(url)
-            .header(header::USER_AGENT, super::USER_AGENT)
             .send()
             .await?
             .text()
