@@ -9,7 +9,7 @@ use crate::tui::markdown::Markdown;
 
 use super::api::{Answer, Api, Question};
 use super::local_storage::SiteMap;
-use super::scraper::{DuckDuckGo, Google, ScrapedData, Scraper};
+use super::scraper::{DuckDuckGo, Google, ScrapedData, Scraper, Startpage};
 
 /// Limit on concurrent requests (gets passed to `buffer_unordered`)
 const CONCURRENT_REQUESTS_LIMIT: usize = 8;
@@ -82,6 +82,7 @@ impl Search {
         match self.config.search_engine {
             SearchEngine::DuckDuckGo => self.search_by_scraper(DuckDuckGo).await,
             SearchEngine::Google => self.search_by_scraper(Google).await,
+            SearchEngine::Startpage => self.search_by_scraper(Startpage).await,
             SearchEngine::StackExchange => self.parallel_search_advanced().await,
         }
         .and_then(|qs| {
