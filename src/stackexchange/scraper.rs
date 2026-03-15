@@ -90,8 +90,7 @@ impl Scraper for Google {
         parse_with_selector(anchors, html, sites, limit)
     }
 
-    /// Creates duckduckgo search url given sites and query
-    /// See https://duckduckgo.com/params for more info
+    /// Creates google search url given sites and query
     fn get_url<'a, I>(&self, query: &str, sites: I) -> Url
     where
         I: IntoIterator<Item = &'a String>,
